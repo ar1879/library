@@ -40,14 +40,17 @@
                     {% comment %} {% endfor %} {% endcomment %}
                     {% endif %}
                     {% endif %}
-                    <label class="form-label">Nombre de Usuario</label>
-                    <br>
+                    <div class='p-3 row justify-content-center'>
+                        <label class="form-label">Nombre de Usuario</label>
+                    
                     {{form.username}}
+                    </div>
+                    
 
                 </div>
                 <div class="p-3 row justify-content-center">
                     <label class="form-label">Password</label>
-                    <br>
+                    
                     {{form.password}}
                 </div>
                 <div class='p-3 row justify-content-center'>
