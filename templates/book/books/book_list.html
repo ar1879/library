@@ -1,0 +1,65 @@
+{% extends 'index.html' %}
+
+{% block titulo %}Listado de Libros{% endblock titulo %}
+
+
+
+
+
+
+
+
+
+
+
+{% block center %}
+
+<table class='container'>
+
+    <thead>
+  
+      <tr class='bg-light text-muted'>
+        <th>Titulo</th>
+  
+        <th>Autor</th>
+  
+        <th>Fecha de Publicacion</th>
+  
+        
+  
+  
+      </tr>
+  
+    </thead>
+  
+    <tbody>
+    {% for libro in book %}
+      <div class='mt-2'>
+        <tr >
+       
+            <td>{{libro.title}}</td>
+            <td>{{libro.author_id}}</td>
+            <td>{{libro.publication_date}}</td>
+            <td><a class='btn btn-success btn-sm' href="{% url 'update_book' libro.id %}">Editar</a></td>
+            <td><a class='btn btn-danger btn-sm' href="{% url 'delete_book' libro.id %}">Eliminar</a></td>
+        
+  
+          {% comment %} <td >
+            <a class='btn btn-success btn-sm' href="{% url 'editar_autor' autor.id %}">Editar</a>
+            <a class='btn btn-danger btn-sm' href="{% url 'eliminar_autor' autor.id %}">Eliminar</a>
+          </td> {% endcomment %}
+    
+          
+      </tr>
+      </div>
+    {% endfor %}
+  
+     
+  
+    </tbody>
+  
+  </table>
+
+  
+
+{% endblock center %}

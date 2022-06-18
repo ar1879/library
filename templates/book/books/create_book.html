@@ -1,0 +1,37 @@
+{% extends 'index.html' %}
+
+{% block title %}Registrar Libro{% endblock title %}
+
+{% block center %}
+<form action="" method="post">
+    {% csrf_token %}
+
+    <form class="row g-3">
+        <div class="col-md-4">
+          <label for="validationServer01" class="form-label">{{form.title.label}}</label>
+          {{form.title}}
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+        </div>
+        <br>
+        <div class="col-md-4">
+          <label for="validationServer02" class="form-label">{{form.author_id.label}}</label>
+          {{form.author_id}}
+         
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+        </div>
+        <br>
+        <div class="col-md-4">
+          <label for="validationServerUsername" class="form-label">{{form.publication_date.label}}</label>
+          {{form.publication_date}}
+        
+        <div class="col-12">
+          <button class="btn btn-primary" type="submit">Submit form</button>
+        </div>
+      </form>
+        
+</form>
+{% endblock center %}

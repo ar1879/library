@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+
+{% block title %}Eliminar Libro{% endblock title %}
+
+{% block center %}
+<form action="" method="post">
+    {% csrf_token %}
+    Desea eliminar el libro <code>{{object}}</code>?
+    
+    <div class='mt-4'>
+        <button type="submit" class='btn btn-danger'>Confirmar</button>
+    <a href="{% url 'book_list' %}" class='btn btn-danger'>Cancelar</a>
+    </div>
+
+</form>
+{% endblock center %}

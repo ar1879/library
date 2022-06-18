@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+
+{% block titulo %}Eliminar Autor{% endblock titulo %}
+
+{% block center %}
+    <form  method="post" class="container mt-4">
+        {% csrf_token %}
+        <p><strong>Desea eliminar el registro {{object}}</strong></p>
+        <button type="submit" class='btn btn-danger '>Confirmar</button>
+        <a class='btn btn-danger' href={% url 'listar_autor' %}>Cancelar</a>
+        
+    </form>
+{% endblock center %}
+
+
+

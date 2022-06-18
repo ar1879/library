@@ -1,0 +1,57 @@
+{% extends 'index.html' %} 
+{% block titulo %}Lista de Autores{% endblock titulo%} 
+{% block center %}
+
+<table class='container'>
+
+    <thead>
+  
+      <tr class='bg-light text-muted'>
+        <th>Id</th>
+  
+        <th>Nombre</th>
+  
+        <th>Apellido</th>
+  
+        <th>Nacionalidad</th>
+
+        <th>Opciones</th>
+  
+  
+      </tr>
+  
+    </thead>
+  
+    <tbody>
+    {% for autor in authors %}
+      <div class='mt-2'>
+        <tr >
+       
+          <td>{{autor.id}}</td>
+  
+          <td>{{autor.name}}</td>
+    
+          <td>{{autor.last_name}}</td>
+    
+          <td>{{autor.nationality}}</td>
+        
+  
+          <td >
+            <a class='btn btn-success btn-sm' href="{% url 'editar_autor' autor.id %}">Editar</a>
+            <a class='btn btn-danger btn-sm' href="{% url 'eliminar_autor' autor.id %}">Eliminar</a>
+          </td>
+    
+          
+      </tr>
+      </div>
+    {% endfor %}
+  
+     
+  
+    </tbody>
+  
+  </table>
+
+  
+
+{% endblock center %}
