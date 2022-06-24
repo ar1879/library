@@ -1,6 +1,6 @@
 {% extends 'index.html' %}
 
-{% block titulo %}Eliminacion de autor{% endblock titulo %}
+{% block title %} <title>Eliminacion de autor</title> {% endblock title %}
 
 {% block center %}
 <form  method="post">
