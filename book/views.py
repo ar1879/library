@@ -1,8 +1,11 @@
 from distutils.log import error
+
 from sre_parse import State
+from webbrowser import get
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.views import View
 
 from .forms import AuthorForm, BookForm
 from .models import Author, Book
@@ -113,12 +116,27 @@ class DeleteAuthor(DeleteView):
           
 
 
-class BookList(ListView):
-    model = Book
-    template_name = 'book/books/book_list.html'
+class BookList(View):
+    model = Book #nombre del modelo a utilizar
+    template_name = 'book/books/book_list.html' #ruta del template a utilizar
     # queryset = Book.objects.filter(state=True)
     # esta consulta si no la ponemos se implementa por defecto pero de la sig manera: queryset = Book.objects.all()
-    context_object_name ='book' # este por defecto sera object_list
+    # context_object_name ='book' # este por defecto sera object_list
+    #a continuacion se anularon los sig metodos incluidos en View
+
+    def get_queryset(self):
+        return self.model.objects.all() 
+    #get_queryset se usa para hacer consultas y aplicar filtros 
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        context["book"] = self.get_queryset()
+        return context
+    #def get_context_data se usa para crear el contexto
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, self.get_context_data())        
+    #def get() se esta usando para retornar todo lo anterior,como el template y  como el contexto
 
 
 class CreateBook(CreateView):
