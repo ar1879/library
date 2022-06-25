@@ -1,4 +1,7 @@
 from distutils.log import error
+from multiprocessing import context
+from re import T
+import re
 
 from sre_parse import State
 from webbrowser import get
@@ -119,6 +122,7 @@ class DeleteAuthor(DeleteView):
 class BookList(View):
     model = Book #nombre del modelo a utilizar
     template_name = 'book/books/book_list.html' #ruta del template a utilizar
+    form_class = BookForm
     # queryset = Book.objects.filter(state=True)
     # esta consulta si no la ponemos se implementa por defecto pero de la sig manera: queryset = Book.objects.all()
     # context_object_name ='book' # este por defecto sera object_list
@@ -131,6 +135,7 @@ class BookList(View):
     def get_context_data(self, **kwargs):
         context = {}
         context["book"] = self.get_queryset()
+        context["form"] = self.form_class
         return context
     #def get_context_data se usa para crear el contexto
 
@@ -138,6 +143,11 @@ class BookList(View):
         return render(request, self.template_name, self.get_context_data())        
     #def get() se esta usando para retornar todo lo anterior,como el template y  como el contexto
 
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('book_list')
 
 class CreateBook(CreateView):
     model = Book
@@ -156,6 +166,20 @@ class DeleteBook(DeleteView):
 
 class UpdateBook(UpdateView):
     model = Book
-    template_name = 'book/books/create_book.html'
+    template_name = 'book/books/book_list.html'
     form_class = BookForm
     success_url = reverse_lazy('book_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['book'] = Book.objects.filter(author_id__state = True)
+        """este es un ejemplo de como ingresar a un campo de un modelo relacional 
+        ya que Book no tiene un campo 'state' tenemos que poner el campo que relaciona 
+        a Book con Author qu en este caso es author_id seguido de dos guiones bajos __
+        y el campo al que queremos en este caso filtrar quedando de la sig manera:
+        .filter(author_id__state = True)
+        La practica anterior se hizo ya que no teniamos un campo de tipo booleano llamado state 
+        en el modelo Book
+        """
+        return context
+        
