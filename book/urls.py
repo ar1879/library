@@ -8,7 +8,7 @@ from . import views
 
 urlpatterns = [
    
-    path('crear_autor/',login_required(views.CreateAuthor.as_view()) , name = 'crear_autor'),
+    # path('crear_autor/',login_required(views.CreateAuthor.as_view()) , name = 'crear_autor'),
     path('listar_autor/',login_required(views.AuthorList.as_view()) , name = 'listar_autor'),
     path('editar_autor/<int:pk>', login_required(views.UpdateAuthor.as_view()), name = 'editar_autor'),
     path('borrar_autor/<int:pk>', login_required(views.DeleteAuthor.as_view()), name = 'eliminar_autor'),

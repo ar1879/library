@@ -1,13 +1,12 @@
-from distutils.log import error
-from multiprocessing import context
-from re import T
-import re
+# from distutils.log import error
+# from multiprocessing import context
 
+
+from pyexpat import model
 from sre_parse import State
-from webbrowser import get
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
+from django.urls import is_valid_path, reverse_lazy
 from django.views import View
 
 from .forms import AuthorForm, BookForm
@@ -35,8 +34,28 @@ class Inicio(TemplateView):
 class AuthorList(ListView):
     model = Author
     template_name = 'book/author/listar_autor.html'
-    queryset = Author.objects.filter(state = True)
-    context_object_name = 'authors' #nombre del contexto, por defecto es = object_list
+    # queryset = Author.objects.filter(state = True)
+    form_class = AuthorForm
+    # context_object_name = 'authors' #nombre del contexto, por defecto es = object_list
+
+    def get_queryset(self):
+        return self.model.objects.filter(state=True)
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        context['authors'] = self.get_queryset()
+        context['form'] = self.form_class
+        return context
+
+    def get(self,request, *args, **kwargs):
+        return render(request, self.template_name, self.get_context_data())  
+
+    def post(self,request,*args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_autor')
+    
 
 #la vista basada en clases anterior se sustitullo por la vista basada en funciones de abajo
 """ def authorList(request):
@@ -47,11 +66,17 @@ class AuthorList(ListView):
 #&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 class UpdateAuthor(UpdateView):
     model = Author
-    template_name = 'book/author/crear_autor.html'    
+    template_name = 'book/author/listar_autor.html'    
     form_class = AuthorForm
     success_url = reverse_lazy('listar_autor')
     # context_object_name = 'author_form'(quize pasarlo a este otro context pero no funciono)
     #el context_object_name por defecto sera = form
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['authors'] = Author.objects.filter(state = True)
+        return context
+
+        
 
     """ def editAuthor(request,id):
     author_form = None
@@ -98,6 +123,7 @@ class DeleteAuthor(DeleteView):
     # success_url = reverse_lazy('listar_autor') aqui no se puede utilizar reverse_lazy por que estamos modificando el metodo post usando la funcion de abajo
 
     def post(self,request,pk,*args,**kwargs):
+        
         object = Author.objects.get(id=pk)
         object.state = False
         object.save()

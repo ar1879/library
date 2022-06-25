@@ -52,6 +52,19 @@
   
   </table>
 
-  
+  <br> <form action="" method="post" class="container">
+    {% csrf_token %}
+    {% if error %}
+    <h2>{{error}}</h2>
+    {% else %}
+    <div>{{form.as_p}}</div>
+    <!--{{author_form.as_table}}-->
+    <!--{{author_form.as_ul}}-->
+    {% endif %}
+    <div class=''>
+        <button type="submit" class='btn btn-success '>Crear</button>
+        <a class='btn btn-danger ' href={% url 'listar_autor' %}>Cancelar</a>
+    </div>
+</form>
 
 {% endblock center %}
