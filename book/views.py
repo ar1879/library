@@ -169,11 +169,11 @@ class BookList(View):
         return render(request, self.template_name, self.get_context_data())        
     #def get() se esta usando para retornar todo lo anterior,como el template y  como el contexto
 
-    def post(self, request, *args, **kwargs):
+    """ def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('book_list')
+            return redirect('book_list') """
 
 class CreateBook(CreateView):
     model = Book
@@ -192,7 +192,7 @@ class DeleteBook(DeleteView):
 
 class UpdateBook(UpdateView):
     model = Book
-    template_name = 'book/books/book_list.html'
+    template_name = 'book/books/book.html'
     form_class = BookForm
     success_url = reverse_lazy('book_list')
 

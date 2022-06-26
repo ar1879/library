@@ -5,14 +5,11 @@
 
 
 
-
-
-
-
-
-
-
 {% block center %}
+
+<div>
+  <button class='btn btn-success btn-sm' onclick="abrir_modal_creacion('{% url 'create_book' %}')">Crear</button>
+</div>
 
 <table class='container'>
 
@@ -40,8 +37,9 @@
             <td>{{libro.title}}</td>
             <td>{{libro.author_id}}</td>
             <td>{{libro.publication_date}}</td>
-            <td><a class='btn btn-success btn-sm' href="{% url 'update_book' libro.id %}">Editar</a></td>
+            <td><button class='btn btn-success btn-sm' onclick="abrir_modal_edicion('{% url 'update_book' libro.id %}')">Editar</button></td>
             <td><a class='btn btn-danger btn-sm' href="{% url 'delete_book' libro.id %}">Eliminar</a></td>
+            
         
   
           {% comment %} <td >
@@ -60,7 +58,7 @@
   
   </table>
 <br>
-  <form action="" method="post">
+  {% comment %} <form action="" method="post">
     {% csrf_token %}
 
     <form class="row g-3">
@@ -86,8 +84,34 @@
         </div>
       </form>
         
-</form>
+</form> {% endcomment %}
 
-  
+<div class="modal fade" id='creacion' role='dialog'></div>
+
+
+<div class="modal fade" id='edicion' role='dialog'>
+
+</div>
 
 {% endblock center %}
+
+{% block extrajs %}
+
+<script type='text/javascript'>
+  {% comment %} var $ = jQuery.noConflict(); {% endcomment %}
+  function abrir_modal_creacion(url){
+    $('#creacion').load(url,function(){
+      $(this).modal('show');
+    });
+  }
+</script>
+<script type='text/javascript'>
+  {% comment %} var $ = jQuery.noConflict(); {% endcomment %}
+  function abrir_modal_edicion(url){
+    $('#edicion').load(url,function(){
+      $(this).modal('show');
+    });
+  }
+</script>
+
+{% endblock extrajs %} 

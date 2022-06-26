@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+{% comment %} {% extends 'index.html' %}
 
 {% block title %} <title>Registrar Libro</title> {% endblock title %}
 
@@ -30,4 +30,29 @@
       </form>
         
 </form>
-{% endblock center %}
+{% endblock center %} {% endcomment %}
+
+<div class="modal-dialog modal-lg" role='document'>
+  <div class="modal-content">
+      <div class="modal-header">
+          <h2 class="modal-title">Creacion de libro {{object}}</h2>
+          <button class="btn-close" type='button' data-bs-dismiss="modal" aria-label='Close'>
+              {% comment %} <span aria-hidden='true'>&times;</span> {% endcomment %}
+          </button>
+      </div>
+      <form action="{% url 'create_book'  %}" method="post">
+          {% csrf_token %}
+          <div class="modal-body">
+              {{form.as_p}}
+          </div>
+          <div class="modal-footer">
+              <button class="btn btn-danger" type='button' data-bs-dismiss='modal'>
+                  Cancelar
+              </button>
+              <button class="btn btn-primary" type='submit'>
+                  Confirmar
+              </button>
+          </div>
+      </form>
+  </div>
+</div>
